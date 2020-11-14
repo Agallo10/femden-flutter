@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Boton extends StatelessWidget {
   final String text;
-  final Function onPress;
+  final Function onPressed;
 
-  const Boton({Key key, @required this.text, @required this.onPress})
+  const Boton({Key key, @required this.text, @required this.onPressed})
       : super(key: key);
 
   @override
@@ -14,7 +14,7 @@ class Boton extends StatelessWidget {
       hoverElevation: 5,
       color: Color.fromRGBO(221, 203, 236, 1),
       shape: StadiumBorder(),
-      onPressed: this.onPress,
+      onPressed: this.onPressed,
       child: Container(
         width: double.infinity,
         height: 55,

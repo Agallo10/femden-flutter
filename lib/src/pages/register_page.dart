@@ -92,7 +92,7 @@ class __FormState extends State<_Form> {
           ),
           Boton(
             text: 'Ingresar',
-            onPress: () {},
+            onPressed: () {},
           )
         ],
       ),
