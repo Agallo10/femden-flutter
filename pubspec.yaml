@@ -31,6 +31,10 @@ dependencies:
   provider: ^4.3.2+2
   http: ^0.12.2
   flutter_secure_storage: ^3.3.5
+  fancy_bottom_navigation: ^0.3.2
+  font_awesome_flutter: ^8.10.0
+  intl: ^0.16.1
+  pull_to_refresh: ^1.6.3
 
 dev_dependencies:
   flutter_test:

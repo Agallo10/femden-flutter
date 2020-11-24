@@ -1,7 +1,10 @@
+import 'package:femden/helpers/mostrar_alerta.dart';
+import 'package:femden/services/auth_service.dart';
 import 'package:femden/widgets/boton.dart';
 import 'package:femden/widgets/custom_input.dart';
 import 'package:femden/widgets/labels.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -20,6 +23,7 @@ class RegisterPage extends StatelessWidget {
                     height: 10,
                   ),
                   Container(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
                     child: Text(
                       'Ingrese los datos para realizar la denuncia',
                       style: TextStyle(
@@ -53,6 +57,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -91,8 +97,32 @@ class __FormState extends State<_Form> {
             //isPassword: true,
           ),
           Boton(
-            text: 'Ingresar',
-            onPressed: () {},
+            color: Color.fromRGBO(221, 203, 236, 1),
+            text: 'Siguiente',
+            onPressed: authService.autenticando
+                ? null
+                : () async {
+                    print(nombreController.text);
+                    print(telController.text);
+                    print(emailController.text);
+                    print(cedulaController.text);
+                    print(direccionController.text);
+
+                    final registroOK = await authService.crearPersonas(
+                        nombreController.text.trim(),
+                        cedulaController.text.trim(),
+                        emailController.text.trim(),
+                        int.parse(telController.text.trim()),
+                        direccionController.text.trim());
+
+                    if (registroOK) {
+                      //Navegar a seleccion
+                      Navigator.pushReplacementNamed(context, 'menu');
+                    } else {
+                      mostrarAlerta(context, ' Error',
+                          'No puede ingresar datos de otra persona');
+                    }
+                  },
           )
         ],
       ),

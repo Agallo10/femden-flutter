@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:femden/global/environment.dart';
+import 'package:femden/src/models/crearp_response.dart';
 import 'package:femden/src/models/login_response.dart';
 import 'package:femden/src/models/persona.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,12 @@ class AuthService with ChangeNotifier {
     return token;
   }
 
+  static Future<String> getUidPersona() async {
+    final _storage = new FlutterSecureStorage();
+    final uid = await _storage.read(key: 'uid');
+    return uid;
+  }
+
   static Future<String> deleteToken() async {
     final _storage = new FlutterSecureStorage();
     await _storage.delete(key: 'token');
@@ -46,6 +53,34 @@ class AuthService with ChangeNotifier {
       final loginResponse = loginResponseFromJson(resp.body);
       this.persona = loginResponse.persona;
       await this._guardarToken(loginResponse.token);
+      await this._guardarUidPersona(loginResponse.persona.uid);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> crearPersonas(String nombre, String documento, String email,
+      int telefono, String direccion) async {
+    this.autenticando = true;
+
+    final data = {
+      'nombre': nombre,
+      'documento': documento,
+      'email': email,
+      'telefono': telefono,
+      'direccion': direccion
+    };
+
+    final resp = await http.post('${Environment.apiUrl}/personas',
+        body: jsonEncode(data), headers: {'Content-Type': 'application/json'});
+
+    print(resp.body);
+    this.autenticando = false;
+
+    if (resp.statusCode == 200) {
+      final crearpResponse = crearpResponseFromJson(resp.body);
+      this.persona = crearpResponse.persona;
       return true;
     } else {
       return false;
@@ -56,7 +91,31 @@ class AuthService with ChangeNotifier {
     return await _storage.write(key: 'token', value: token);
   }
 
+  Future _guardarUidPersona(String uid) async {
+    return await _storage.write(key: 'uid', value: uid);
+  }
+
   Future logout() async {
     return await _storage.delete(key: 'token');
+  }
+
+  Future<bool> isLoggedIn() async {
+    final token = await this._storage.read(key: 'token');
+
+    final resp = await http.get('${Environment.apiUrl}/loginPersonas/renew',
+        headers: {'Content-Type': 'application/json', 'x-token': token});
+
+    print(resp.body);
+
+    if (resp.statusCode == 200) {
+      final loginResponse = loginResponseFromJson(resp.body);
+      this.persona = loginResponse.persona;
+      await this._guardarToken(loginResponse.token);
+      await this._guardarUidPersona(loginResponse.persona.uid);
+      return true;
+    } else {
+      this.logout();
+      return false;
+    }
   }
 }

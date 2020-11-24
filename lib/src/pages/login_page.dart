@@ -65,6 +65,7 @@ class __FormState extends State<_Form> {
             isPassword: true,
           ),
           Boton(
+            color: Color.fromRGBO(221, 203, 236, 1),
             text: 'Ingresar',
             onPressed: authService.autenticando
                 ? null
@@ -77,7 +78,7 @@ class __FormState extends State<_Form> {
 
                     if (loginOk) {
                       //Navegar a seleccion
-                      Navigator.pushReplacementNamed(context, 'seleccion');
+                      Navigator.pushReplacementNamed(context, 'menu');
                     } else {
                       mostrarAlerta(context, 'login Incorrecto',
                           'Revise sus credenciales');

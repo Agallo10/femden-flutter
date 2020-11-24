@@ -5,10 +5,8 @@ class OrientacionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Orientacion'),
-      ),
+    return Center(
+      child: Text('Orientacion'),
     );
   }
 }

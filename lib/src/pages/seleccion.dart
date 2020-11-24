@@ -1,142 +1,98 @@
+import 'package:femden/services/auth_service.dart';
+import 'package:femden/src/pages/denuncia_page.dart';
+import 'package:femden/widgets/boton_denuncia.dart';
+import 'package:femden/widgets/headers.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class ItemBoton {
+  final IconData icon;
+  final String texto;
+  final Color color1;
+  final Color color2;
+  final String tipoDenuncia;
+
+  ItemBoton(this.icon, this.texto, this.color1, this.color2, this.tipoDenuncia);
+}
 
 class SeleccionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(children: <Widget>[
-          _colorfondo(),
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[_titulos(), _botonesRedondeados()],
-            ),
-          )
-        ]),
-        bottomNavigationBar: _bottonNavigationBar(context));
-  }
+    final items = <ItemBoton>[
+      new ItemBoton(FontAwesomeIcons.hammer, 'Violencia fisica',
+          Color(0xff6989F5), Color(0xff906EF5), '5f8e631789766e1bdf4bb3c4'),
+      new ItemBoton(FontAwesomeIcons.houseDamage, 'Violencia Patrimonial',
+          Color(0xff66A9F2), Color(0xff536CF6), '5f8e634989766e1bdf4bb3c8'),
+      new ItemBoton(FontAwesomeIcons.theaterMasks, 'Violencia Psicologica',
+          Color(0xffF2D572), Color(0xffE06AA3), '5f8e633c89766e1bdf4bb3c7'),
+      new ItemBoton(FontAwesomeIcons.dollarSign, 'Violencia Economica',
+          Color(0xff317183), Color(0xff46997D), '5f8e632789766e1bdf4bb3c5'),
+      new ItemBoton(FontAwesomeIcons.female, 'Violencia Sexual', Colors.red,
+          Color(0xffF2D572), '5f8e633189766e1bdf4bb3c6'),
+    ];
 
-  Widget _colorfondo() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Color.fromRGBO(91, 24, 123, 20),
-    );
-  }
+    List<Widget> itemMap = items
+        .map((item) => BotonDenuncia(
+              icon: item.icon,
+              texto: item.texto,
+              color1: item.color1,
+              color2: item.color2,
+              onPress: () {
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                        pageBuilder: (_, __, ___) => DenunciasPage(
+                            item.icon,
+                            item.texto,
+                            item.color1,
+                            item.color2,
+                            item.tipoDenuncia)));
+              },
+            ))
+        .toList();
 
-  Widget _bottonNavigationBar(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-          canvasColor: Color.fromRGBO(55, 57, 84, 1.0),
-          primaryColor: Colors.white,
-          textTheme: Theme.of(context).textTheme.copyWith(
-              caption: TextStyle(color: Color.fromRGBO(116, 117, 152, 1.0)))),
-      child: BottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index) {},
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('inicio'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.call),
-            title: Text('orientacion'),
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search), title: Text('mi caso')),
-        ],
-      ),
-    );
-  }
-
-  Widget _titulos() {
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Femden App',
-              style: TextStyle(
-                  fontSize: 30.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10.0),
-            Text('Selecciona el tipo de violencia',
-                style: TextStyle(fontSize: 18.0, color: Colors.white))
-          ],
+    return Stack(children: [
+      Container(
+        margin: EdgeInsets.only(top: 280),
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          children: [...itemMap],
         ),
       ),
-    );
+      PageHeader()
+    ]);
   }
+}
 
-  Widget _botonesRedondeados() {
-    return Center(
-      child: Table(
-        children: [
-          TableRow(children: [
-            _crearBotonRedondeado(Colors.blue, Icons.gavel, 'Violencia fisica'),
-            _crearBotonRedondeado(
-                Colors.green, Icons.monetization_on, 'Violencia Economica'),
-          ]),
-          TableRow(children: [
-            _crearBotonRedondeado(
-                Colors.deepOrange, Icons.pan_tool, 'Violencia sexual'),
-            _crearBotonRedondeado(
-                Colors.amber, Icons.lightbulb_outline, 'Violencia Psicologica'),
-          ]),
-          TableRow(children: [
-            _crearBotonRedondeado(
-                Colors.black, Icons.home, 'Violencia Patrimonial'),
-            Container(),
-          ]),
-        ],
+class PageHeader extends StatelessWidget {
+  const PageHeader({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: [
+      IconHeader(
+        icon: FontAwesomeIcons.home,
+        subtitulo: 'Selecciona el',
+        titulo: 'Tipo de denuncia',
+        color1: Color.fromRGBO(91, 24, 123, 1),
+        color2: Color.fromRGBO(91, 24, 123, 1),
       ),
-    );
-  }
-
-  Widget _crearBotonRedondeado(Color color, IconData icono, String texto) {
-    return
-        // ClipRect(
-
-        //   child: BackdropFilter(
-        //     filter: prefix0.ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-        //     child:
-        Container(
-      height: 150.0,
-      margin: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-          color: Color.fromRGBO(62, 66, 107, 0.7),
-          borderRadius: BorderRadius.circular(20.0)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          SizedBox(
-            height: 5.0,
-          ),
-          CircleAvatar(
-            backgroundColor: color,
-            radius: 35.0,
-            child: Icon(
-              icono,
+      Positioned(
+          right: 0,
+          top: 45,
+          child: RawMaterialButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, 'inicio');
+              AuthService.deleteToken();
+            },
+            shape: CircleBorder(),
+            child: FaIcon(
+              FontAwesomeIcons.signOutAlt,
               color: Colors.white,
             ),
-          ),
-          Text(
-            texto,
-            style: TextStyle(color: color),
-          ),
-          SizedBox(
-            height: 5.0,
-          )
-        ],
-      ),
-    );
-    //   ),
-    // );
+          ))
+    ]);
   }
-
-  //Widget _callPage() {}
 }
