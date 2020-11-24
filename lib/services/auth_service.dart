@@ -38,6 +38,11 @@ class AuthService with ChangeNotifier {
     await _storage.delete(key: 'token');
   }
 
+  static Future<String> deleteUidPersona() async {
+    final _storage = new FlutterSecureStorage();
+    await _storage.delete(key: 'uid');
+  }
+
   Future<bool> login(String email, String documento) async {
     this.autenticando = true;
 

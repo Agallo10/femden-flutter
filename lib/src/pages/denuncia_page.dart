@@ -62,7 +62,9 @@ class PageHeader extends StatelessWidget {
           top: 45,
           child: RawMaterialButton(
             onPressed: () {
-              print('eeee');
+              Navigator.pushReplacementNamed(context, 'inicio');
+              AuthService.deleteToken();
+              AuthService.deleteUidPersona();
             },
             shape: CircleBorder(),
             child: FaIcon(

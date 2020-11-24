@@ -86,6 +86,7 @@ class PageHeader extends StatelessWidget {
             onPressed: () {
               Navigator.pushReplacementNamed(context, 'inicio');
               AuthService.deleteToken();
+              AuthService.deleteUidPersona();
             },
             shape: CircleBorder(),
             child: FaIcon(
