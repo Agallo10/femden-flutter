@@ -13,11 +13,20 @@ class LoadingPage extends StatelessWidget {
         body: FutureBuilder(
             future: checkLogState(context),
             builder: (context, snapshot) {
-              return Center(
-                  child: Text(
-                'Espere...',
-                style: TextStyle(color: Colors.white, fontSize: 25),
-              ));
+              return Column(
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text(
+                      'Espere...',
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ),
+                  Divider(),
+                  CircularProgressIndicator(),
+                ],
+              );
             }));
   }
 

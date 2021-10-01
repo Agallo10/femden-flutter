@@ -67,6 +67,7 @@ class __FormState extends State<_Form> {
           Boton(
             color: Color.fromRGBO(221, 203, 236, 1),
             text: 'Ingresar',
+            colorTexto: Colors.black,
             onPressed: authService.autenticando
                 ? null
                 : () async {

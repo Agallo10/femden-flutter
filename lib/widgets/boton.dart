@@ -16,15 +16,19 @@ class Boton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      elevation: 2,
-      hoverElevation: 5,
-      color: this.color,
-      shape: StadiumBorder(),
+    return ElevatedButton(
+      style: ButtonStyle(
+          elevation: MaterialStateProperty.all(2),
+          backgroundColor: MaterialStateProperty.all<Color>(this.color),
+          shape: MaterialStateProperty.all(StadiumBorder())),
+      //elevation: 2,
+      //hoverElevation: 5,
+      //color: this.color,
+      //shape: StadiumBorder(),
       onPressed: this.onPressed,
       child: Container(
         width: double.infinity,
-        height: 55,
+        height: 45,
         child: Center(
           child: Text(
             //style: TextStyle(color: this.colorTexto),
@@ -32,6 +36,7 @@ class Boton extends StatelessWidget {
             style: TextStyle(fontSize: 17, color: this.colorTexto),
           ),
         ),
+        decoration: BoxDecoration(),
       ),
     );
   }

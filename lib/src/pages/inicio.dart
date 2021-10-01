@@ -61,9 +61,17 @@ class InicioScroll extends StatelessWidget {
           ),
           _fondoIMG(),
           Expanded(child: Container()),
-          Text(
-            'Denuncia todo tipo de violencias',
-            style: estiloTexto2,
+          SizedBox(
+            height: 120,
+            child: Container(
+              padding: EdgeInsets.all(30),
+              child: Text(
+                'Denuncia tu caso de violencia y discriminacion contra las mujeres',
+                style: estiloTexto2,
+                textAlign: TextAlign.center,
+              ),
+              //color: Colors.black,
+            ),
           ),
           SizedBox(height: 100),
           Icon(
@@ -134,14 +142,14 @@ class InicioScroll extends StatelessWidget {
           width: 300,
           height: 150,
           child: Text(
-            'Esta App le permitira realizar una denuncia ingresando sus datos básicos personales. ',
+            'Esta App le permitirá realizar una denuncia ingresando sus datos básicos personales. ',
             style: estiloTexto2,
             textAlign: TextAlign.center,
           ),
         ),
         Container(
-          width: 300,
-          height: 30,
+          width: 360,
+          height: 60,
           child: Text(
             'Ya ha realizado una denuncia antes?',
             style: estiloTexto2,

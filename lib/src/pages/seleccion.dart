@@ -1,5 +1,5 @@
 import 'package:femden/services/auth_service.dart';
-import 'package:femden/src/pages/denuncia_page.dart';
+import 'package:femden/src/pages/pre_denuncia_page.dart';
 import 'package:femden/widgets/boton_denuncia.dart';
 import 'package:femden/widgets/headers.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +19,13 @@ class SeleccionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <ItemBoton>[
-      new ItemBoton(FontAwesomeIcons.hammer, 'Violencia fisica',
+      new ItemBoton(FontAwesomeIcons.hammer, 'Violencia Física',
           Color(0xff6989F5), Color(0xff906EF5), '5f8e631789766e1bdf4bb3c4'),
       new ItemBoton(FontAwesomeIcons.houseDamage, 'Violencia Patrimonial',
           Color(0xff66A9F2), Color(0xff536CF6), '5f8e634989766e1bdf4bb3c8'),
-      new ItemBoton(FontAwesomeIcons.theaterMasks, 'Violencia Psicologica',
+      new ItemBoton(FontAwesomeIcons.theaterMasks, 'Violencia Psicológica',
           Color(0xffF2D572), Color(0xffE06AA3), '5f8e633c89766e1bdf4bb3c7'),
-      new ItemBoton(FontAwesomeIcons.dollarSign, 'Violencia Economica',
+      new ItemBoton(FontAwesomeIcons.dollarSign, 'Violencia Económica',
           Color(0xff317183), Color(0xff46997D), '5f8e632789766e1bdf4bb3c5'),
       new ItemBoton(FontAwesomeIcons.female, 'Violencia Sexual', Colors.red,
           Color(0xffF2D572), '5f8e633189766e1bdf4bb3c6'),
@@ -41,7 +41,7 @@ class SeleccionPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => DenunciasPage(
+                        pageBuilder: (_, __, ___) => PreDenunciaPage(
                             item.icon,
                             item.texto,
                             item.color1,
@@ -53,7 +53,7 @@ class SeleccionPage extends StatelessWidget {
 
     return Stack(children: [
       Container(
-        margin: EdgeInsets.only(top: 280),
+        margin: EdgeInsets.only(top: 225),
         child: ListView(
           physics: BouncingScrollPhysics(),
           children: [...itemMap],

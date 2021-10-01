@@ -6,6 +6,7 @@ class CustomInput extends StatelessWidget {
   final TextEditingController textController;
   final TextInputType keyboardType;
   final bool isPassword;
+  final VoidCallback onClicked;
 
   const CustomInput(
       {Key key,
@@ -13,7 +14,8 @@ class CustomInput extends StatelessWidget {
       @required this.placeHolder,
       @required this.textController,
       this.keyboardType = TextInputType.text,
-      this.isPassword = false})
+      this.isPassword = false,
+      this.onClicked})
       : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class CustomInput extends StatelessWidget {
                   blurRadius: 5),
             ]),
         child: TextField(
+          onTap: onClicked,
           controller: this.textController,
           style: TextStyle(fontSize: 20),
           autocorrect: false,

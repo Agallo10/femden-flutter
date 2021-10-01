@@ -7,6 +7,7 @@ import 'package:femden/src/pages/orientacion.dart';
 import 'package:femden/src/pages/perfil_page.dart';
 import 'package:femden/src/pages/register_page.dart';
 import 'package:femden/src/pages/seleccion.dart';
+import 'package:femden/src/pages/uso_app.dart';
 import 'package:flutter/material.dart';
 
 final Map<String, Widget Function(BuildContext)> appRoutes = {
@@ -19,5 +20,6 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'orientacion': (_) => OrientacionPage(),
   'denuncias': (_) => MisDenunciasPage(),
   'perfil': (_) => PerfilPage(),
+  'uso': (_) => UsoAppPage(),
   //'denuncia': (_) => DenunciasPage(null, null, null, null),
 };

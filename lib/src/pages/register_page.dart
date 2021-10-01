@@ -1,3 +1,4 @@
+import 'package:age/age.dart';
 import 'package:femden/helpers/mostrar_alerta.dart';
 import 'package:femden/services/auth_service.dart';
 import 'package:femden/widgets/boton.dart';
@@ -5,6 +6,7 @@ import 'package:femden/widgets/custom_input.dart';
 import 'package:femden/widgets/labels.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -20,13 +22,14 @@ class RegisterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 10,
+                    height: 18,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
                       'Ingrese los datos para realizar la denuncia',
                       style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Color.fromRGBO(221, 203, 236, 1),
                           fontSize: 22),
                     ),
@@ -54,14 +57,18 @@ class __FormState extends State<_Form> {
   final cedulaController = TextEditingController();
   final emailController = TextEditingController();
   final direccionController = TextEditingController();
+  final fechaController = TextEditingController();
+  int edad;
+  AgeDuration age;
 
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final msg = authService.msg;
 
     return Container(
-      margin: EdgeInsets.only(top: 40),
-      padding: EdgeInsets.symmetric(horizontal: 50),
+      margin: EdgeInsets.only(top: 1),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           CustomInput(
@@ -96,34 +103,79 @@ class __FormState extends State<_Form> {
             textController: direccionController,
             //isPassword: true,
           ),
+          CustomInput(
+            icon: Icons.date_range,
+            placeHolder: 'Fecha',
+            textController: fechaController,
+            onClicked: () {
+              showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(DateTime.now().year - 80),
+                  lastDate: DateTime(DateTime.now().year + 5),
+                  builder: (context, picker) {
+                    return Theme(
+                      data: ThemeData.dark().copyWith(
+                        colorScheme: ColorScheme.dark(
+                          primary: Colors.deepPurple,
+                          onPrimary: Colors.white,
+                          surface: Color.fromRGBO(221, 203, 236, 1),
+                          onSurface: Colors.deepPurple,
+                        ),
+                        dialogBackgroundColor: Colors.white,
+                      ),
+                      child: picker,
+                    );
+                  }).then((selectedDate) {
+                if (selectedDate != null) {
+                  fechaController.text =
+                      DateFormat('MM/dd/yyyy').format(selectedDate);
+
+                  age = Age.dateDifference(
+                      fromDate: selectedDate,
+                      toDate: DateTime.now(),
+                      includeToDate: false);
+
+                  edad = age.years;
+
+                  print(edad);
+                }
+              });
+            },
+
+            //isPassword: true,
+          ),
+          Container(
+            height: 10,
+          ),
           Boton(
             color: Color.fromRGBO(221, 203, 236, 1),
+            colorTexto: Colors.black,
             text: 'Siguiente',
-            onPressed: authService.autenticando
-                ? null
-                : () async {
-                    print(nombreController.text);
-                    print(telController.text);
-                    print(emailController.text);
-                    print(cedulaController.text);
-                    print(direccionController.text);
+            onPressed:
+                //authService.autenticando
+                // ? null
+                // :
+                () async {
+              final registroOK = await authService.crearPersonas(
+                  nombreController.text.trim(),
+                  cedulaController.text.trim(),
+                  emailController.text.trim(),
+                  int.parse(telController.text.trim()),
+                  direccionController.text.trim(),
+                  fechaController.text.trim(),
+                  edad);
 
-                    final registroOK = await authService.crearPersonas(
-                        nombreController.text.trim(),
-                        cedulaController.text.trim(),
-                        emailController.text.trim(),
-                        int.parse(telController.text.trim()),
-                        direccionController.text.trim());
+              if (registroOK) {
+                //Navegar a seleccion
+                Navigator.pushReplacementNamed(context, 'menu');
+              } else {
+                mostrarAlerta(context, ' Error', msg ?? "");
+              }
+            },
+          ),
 
-                    if (registroOK) {
-                      //Navegar a seleccion
-                      Navigator.pushReplacementNamed(context, 'menu');
-                    } else {
-                      mostrarAlerta(context, ' Error',
-                          'No puede ingresar datos de otra persona');
-                    }
-                  },
-          )
+          //Boton(text: 'fecha', onPressed: () {})
         ],
       ),
     );

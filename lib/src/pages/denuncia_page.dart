@@ -5,7 +5,7 @@ import 'package:femden/widgets/boton.dart';
 import 'package:femden/widgets/headers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
+//import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DenunciasPage extends StatelessWidget {
@@ -21,20 +21,22 @@ class DenunciasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        PageHeader(
-          icon: icon,
-          texto: this.texto,
-          color1: this.color1,
-          color2: this.color2,
-        ),
-        Container(
-            margin: EdgeInsets.only(top: 280),
-            padding: EdgeInsets.symmetric(horizontal: 50),
-            child: _From(tipoDenuncia: this.tipoDenuncia)),
-        Positioned(right: 20, top: 770, child: botonBajo(context)),
-      ],
+        body: SingleChildScrollView(
+      child: Stack(
+        children: [
+          PageHeader(
+            icon: icon,
+            texto: this.texto,
+            color1: this.color1,
+            color2: this.color2,
+          ),
+          Container(
+              margin: EdgeInsets.only(top: 260),
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: _From(tipoDenuncia: this.tipoDenuncia)),
+          //Positioned(right: 20, top: 770, child: botonBajo(context)),
+        ],
+      ),
     ));
   }
 }
@@ -52,7 +54,7 @@ class PageHeader extends StatelessWidget {
     return Stack(children: [
       IconHeader(
         icon: this.icon,
-        subtitulo: 'Realize la denuncia',
+        subtitulo: 'Realice la denuncia',
         titulo: this.texto,
         color1: this.color1,
         color2: this.color2,
@@ -79,25 +81,26 @@ class PageHeader extends StatelessWidget {
 
 class _From extends StatefulWidget {
   final String tipoDenuncia;
+  final Color color1;
 
-  const _From({Key key, this.tipoDenuncia}) : super(key: key);
+  const _From({Key key, this.tipoDenuncia, this.color1}) : super(key: key);
 
   @override
-  __FromState createState() => __FromState(this.tipoDenuncia);
+  __FromState createState() => __FromState(this.tipoDenuncia, this.color1);
 }
 
 class __FromState extends State<_From> {
   final textoController = TextEditingController();
   final String tipoDenuncia;
+  final Color color1;
+
   //final fecha = DateTime.parse(DateFormat.yMMMMEEEEd().format(DateTime.now()));
 
   @override
-  __FromState(this.tipoDenuncia);
+  __FromState(this.tipoDenuncia, this.color1);
 
   @override
   Widget build(BuildContext context) {
-    final DateTime fecha2 = DateTime.now().toLocal();
-
     final denunciaService = Provider.of<DenunciaService>(context);
     return Container(
         child: Column(
@@ -114,9 +117,12 @@ class __FromState extends State<_From> {
                   controller: textoController,
                   style: TextStyle(fontSize: 20),
                   decoration: InputDecoration(
+                    hintText: 'Escriba aquí su denuncia',
+                    // hintStyle: TextStyle(fontSize: ),
+                    //labelStyle: TextStyle(color: this.color1),
                     border: InputBorder.none,
                   ),
-                  maxLines: 8,
+                  maxLines: 20,
                 ),
               ),
             ),
@@ -124,35 +130,41 @@ class __FromState extends State<_From> {
           SizedBox(
             height: 20,
           ),
-          Container(
-            width: 200,
-            height: 50,
-            child: Boton(
-              color: Color.fromRGBO(91, 24, 123, 1),
-              text: 'Realizar denuncia',
-              colorTexto: Colors.white,
-              onPressed: denunciaService.autenticando
-                  ? null
-                  : () async {
-                      print(textoController.text);
-                      final uid = await AuthService.getUidPersona();
-                      final denunciaOK = await denunciaService.crearDenuncia(
-                          textoController.text,
-                          uid,
-                          'en seguimiento',
-                          this.tipoDenuncia,
-                          fecha2);
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              botonBajo(context),
+              Container(
+                width: 20,
+              ),
+              Container(
+                width: 200,
+                height: 50,
+                child: Boton(
+                  color: Color.fromRGBO(91, 24, 123, 1),
+                  text: 'Realizar denuncia',
+                  colorTexto: Colors.white,
+                  onPressed: denunciaService.autenticando
+                      ? null
+                      : () async {
+                          print(textoController.text);
+                          final uid = await AuthService.getUidPersona();
+                          final denunciaOK =
+                              await denunciaService.crearDenuncia(
+                                  textoController.text, uid, this.tipoDenuncia);
 
-                      if (denunciaOK) {
-                        //Navegar a seleccion
-                        mostrarAlerta(
-                            context, ' Correcto', 'Denuncia Realizada');
-                      } else {
-                        mostrarAlerta(context, ' Error',
-                            'No se pudo realizar la denuncia');
-                      }
-                    },
-            ),
+                          if (denunciaOK) {
+                            //Navegar a seleccion
+                            mostrarAlerta(
+                                context, ' Correcto', 'Denuncia Realizada');
+                          } else {
+                            mostrarAlerta(context, ' Error',
+                                'No se pudo realizar la denuncia');
+                          }
+                        },
+                ),
+              ),
+            ],
           )
         ])
       ],

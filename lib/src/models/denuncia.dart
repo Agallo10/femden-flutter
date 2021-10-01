@@ -4,6 +4,11 @@
 
 import 'dart:convert';
 
+//import 'package:femden/src/models/persona.dart';
+//import 'package:femden/src/models/tipo_denuncia.dart';
+
+//import 'estado_denuncia.dart';
+
 Denuncia denunciaFromJson(String str) => Denuncia.fromJson(json.decode(str));
 
 String denunciaToJson(Denuncia data) => json.encode(data.toJson());
@@ -12,9 +17,9 @@ class Denuncia {
   Denuncia({
     this.texto,
     this.persona,
-    this.estado,
     this.tipo,
     this.fecha,
+    this.estado,
     this.uid,
   });
 
@@ -22,7 +27,7 @@ class Denuncia {
   String persona;
   String estado;
   String tipo;
-  DateTime fecha;
+  String fecha;
   String uid;
 
   factory Denuncia.fromJson(Map<String, dynamic> json) => Denuncia(
@@ -30,7 +35,7 @@ class Denuncia {
         persona: json["persona"],
         estado: json["estado"],
         tipo: json["tipo"],
-        fecha: DateTime.parse(json["fecha"]),
+        fecha: json["fecha"],
         uid: json["uid"],
       );
 
@@ -39,7 +44,7 @@ class Denuncia {
         "persona": persona,
         "estado": estado,
         "tipo": tipo,
-        "fecha": fecha.toIso8601String(),
+        "fecha": fecha,
         "uid": uid,
       };
 }

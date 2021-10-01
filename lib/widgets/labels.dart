@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class Labels extends StatelessWidget {
   final String ruta;
-
   const Labels({Key key, @required this.ruta}) : super(key: key);
 
   @override
@@ -10,7 +9,7 @@ class Labels extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Text('Label'),
+          //Text('Label'),
           SizedBox(
             height: 10,
           ),
@@ -24,9 +23,9 @@ class Labels extends StatelessWidget {
               Navigator.pushReplacementNamed(context, this.ruta);
             },
           ),
-          SizedBox(
-            height: 20,
-          )
+          // SizedBox(
+          //   height: 20,
+          // )
         ],
       ),
     );

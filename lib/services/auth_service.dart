@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:femden/global/environment.dart';
 import 'package:femden/src/models/crearp_response.dart';
+import 'package:femden/src/models/crearp_bad_response.dart';
 import 'package:femden/src/models/login_response.dart';
 import 'package:femden/src/models/persona.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class AuthService with ChangeNotifier {
   Persona persona;
   bool _autenticando = false;
+  String msg;
 
   final _storage = new FlutterSecureStorage();
 
@@ -36,11 +38,13 @@ class AuthService with ChangeNotifier {
   static Future<String> deleteToken() async {
     final _storage = new FlutterSecureStorage();
     await _storage.delete(key: 'token');
+    return "";
   }
 
   static Future<String> deleteUidPersona() async {
     final _storage = new FlutterSecureStorage();
     await _storage.delete(key: 'uid');
+    return "";
   }
 
   Future<bool> login(String email, String documento) async {
@@ -66,7 +70,7 @@ class AuthService with ChangeNotifier {
   }
 
   Future<bool> crearPersonas(String nombre, String documento, String email,
-      int telefono, String direccion) async {
+      int telefono, String direccion, String fechaNacimiento, int edad) async {
     this.autenticando = true;
 
     final data = {
@@ -74,7 +78,9 @@ class AuthService with ChangeNotifier {
       'documento': documento,
       'email': email,
       'telefono': telefono,
-      'direccion': direccion
+      'direccion': direccion,
+      'fechaNacimiento': fechaNacimiento,
+      'edad': edad
     };
 
     final resp = await http.post('${Environment.apiUrl}/personas',
@@ -86,8 +92,12 @@ class AuthService with ChangeNotifier {
     if (resp.statusCode == 200) {
       final crearpResponse = crearpResponseFromJson(resp.body);
       this.persona = crearpResponse.persona;
+      await this._guardarToken(crearpResponse.token);
+      await this._guardarUidPersona(crearpResponse.persona.uid);
       return true;
     } else {
+      final crearpBadResponse = crearPeBadResponseFromJson(resp.body);
+      this.msg = crearpBadResponse.msg;
       return false;
     }
   }

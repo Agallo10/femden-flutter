@@ -33,7 +33,7 @@ class IconHeader extends StatelessWidget {
         Column(
           children: [
             SizedBox(
-              height: 80,
+              height: 60,
               width: double.infinity,
             ),
             Text(this.subtitulo,
@@ -71,7 +71,7 @@ class _IconHeaderBack extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        height: 300,
+        height: 250,
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [this.color1, this.color2]),
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(80)),

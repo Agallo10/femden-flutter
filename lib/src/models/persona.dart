@@ -16,6 +16,8 @@ class Persona {
     this.telefono,
     this.direccion,
     this.uid,
+    this.fechaNacimiento,
+    this.edad,
   });
 
   String nombre;
@@ -24,15 +26,18 @@ class Persona {
   int telefono;
   String direccion;
   String uid;
+  String fechaNacimiento;
+  int edad;
 
   factory Persona.fromJson(Map<String, dynamic> json) => Persona(
-        nombre: json["nombre"],
-        documento: json["documento"],
-        email: json["email"],
-        telefono: json["telefono"],
-        direccion: json["direccion"],
-        uid: json["uid"],
-      );
+      nombre: json["nombre"],
+      documento: json["documento"],
+      email: json["email"],
+      telefono: json["telefono"],
+      direccion: json["direccion"],
+      uid: json["uid"],
+      fechaNacimiento: json["fechaNacimiento"],
+      edad: json["edad"]);
 
   Map<String, dynamic> toJson() => {
         "nombre": nombre,
@@ -41,5 +46,7 @@ class Persona {
         "telefono": telefono,
         "direccion": direccion,
         "uid": uid,
+        "fechaNacimiento": fechaNacimiento,
+        "edad": edad,
       };
 }
