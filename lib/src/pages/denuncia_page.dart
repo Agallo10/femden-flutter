@@ -2,6 +2,7 @@ import 'package:femden/helpers/mostrar_alerta.dart';
 import 'package:femden/services/auth_service.dart';
 import 'package:femden/services/denuncia_service.dart';
 import 'package:femden/widgets/boton.dart';
+import 'package:femden/widgets/boton_cerrar_cesion.dart';
 import 'package:femden/widgets/headers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,6 +21,8 @@ class DenunciasPage extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    final persona = authService.persona;
     return Scaffold(
         body: SingleChildScrollView(
       child: Stack(
@@ -33,7 +36,10 @@ class DenunciasPage extends StatelessWidget {
           Container(
               margin: EdgeInsets.only(top: 260),
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: _From(tipoDenuncia: this.tipoDenuncia)),
+              child: _From(
+                tipoDenuncia: this.tipoDenuncia,
+                autor: persona.nombre,
+              )),
           //Positioned(right: 20, top: 770, child: botonBajo(context)),
         ],
       ),
@@ -59,21 +65,7 @@ class PageHeader extends StatelessWidget {
         color1: this.color1,
         color2: this.color2,
       ),
-      Positioned(
-          right: 0,
-          top: 45,
-          child: RawMaterialButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, 'inicio');
-              AuthService.deleteToken();
-              AuthService.deleteUidPersona();
-            },
-            shape: CircleBorder(),
-            child: FaIcon(
-              FontAwesomeIcons.signOutAlt,
-              color: Colors.white,
-            ),
-          )),
+      Positioned(right: 0, top: 45, child: BotonSingOut()),
       //Positioned(right: 100, top: 660, child: botonTraido())
     ]);
   }
@@ -81,23 +73,27 @@ class PageHeader extends StatelessWidget {
 
 class _From extends StatefulWidget {
   final String tipoDenuncia;
+  final String autor;
   final Color color1;
 
-  const _From({Key key, this.tipoDenuncia, this.color1}) : super(key: key);
+  const _From({Key key, this.tipoDenuncia, this.color1, this.autor})
+      : super(key: key);
 
   @override
-  __FromState createState() => __FromState(this.tipoDenuncia, this.color1);
+  __FromState createState() =>
+      __FromState(this.tipoDenuncia, this.color1, this.autor);
 }
 
 class __FromState extends State<_From> {
   final textoController = TextEditingController();
   final String tipoDenuncia;
+  final String autor;
   final Color color1;
 
   //final fecha = DateTime.parse(DateFormat.yMMMMEEEEd().format(DateTime.now()));
 
   @override
-  __FromState(this.tipoDenuncia, this.color1);
+  __FromState(this.tipoDenuncia, this.color1, this.autor);
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +147,10 @@ class __FromState extends State<_From> {
                           final uid = await AuthService.getUidPersona();
                           final denunciaOK =
                               await denunciaService.crearDenuncia(
-                                  textoController.text, uid, this.tipoDenuncia);
+                                  textoController.text,
+                                  uid,
+                                  this.tipoDenuncia,
+                                  this.autor);
 
                           if (denunciaOK) {
                             //Navegar a seleccion

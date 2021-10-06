@@ -16,6 +16,7 @@ String denunciaToJson(Denuncia data) => json.encode(data.toJson());
 class Denuncia {
   Denuncia({
     this.texto,
+    this.autor,
     this.persona,
     this.tipo,
     this.fecha,
@@ -24,6 +25,7 @@ class Denuncia {
   });
 
   String texto;
+  String autor;
   String persona;
   String estado;
   String tipo;
@@ -32,6 +34,7 @@ class Denuncia {
 
   factory Denuncia.fromJson(Map<String, dynamic> json) => Denuncia(
         texto: json["texto"],
+        autor: json["autor"],
         persona: json["persona"],
         estado: json["estado"],
         tipo: json["tipo"],
@@ -41,6 +44,7 @@ class Denuncia {
 
   Map<String, dynamic> toJson() => {
         "texto": texto,
+        "autor": autor,
         "persona": persona,
         "estado": estado,
         "tipo": tipo,

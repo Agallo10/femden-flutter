@@ -1,0 +1,98 @@
+import 'package:femden/helpers/mostrar_alerta.dart';
+import 'package:femden/services/auth_service.dart';
+import 'package:femden/widgets/boton.dart';
+import 'package:femden/widgets/custom_input.dart';
+import 'package:femden/widgets/labels.dart';
+import 'package:femden/widgets/logo.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class LoginPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Color.fromRGBO(91, 24, 123, 1),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.9,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Logo(),
+                  _Form(),
+                  Labels(
+                    ruta: 'inicio',
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+}
+
+class _Form extends StatefulWidget {
+  @override
+  __FormState createState() => __FormState();
+}
+
+class __FormState extends State<_Form> {
+  final emailController = TextEditingController();
+  final cedulaController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
+    return Container(
+      margin: EdgeInsets.only(top: 40),
+      padding: EdgeInsets.symmetric(horizontal: 50),
+      child: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          children: [
+            CustomInputCorreo(
+              icon: Icons.email,
+              //placeHolder: 'Correo electrónico',
+              labelText: 'Correo electronico',
+              keyboardType: TextInputType.emailAddress,
+              textController: emailController,
+            ),
+            CustomInputContrasena(
+              icon: Icons.lock,
+              //placeHolder: 'Contraseña',
+              labelText: 'Contraseña',
+              //keyboardType: TextInputType.number,
+              textController: cedulaController,
+              isPassword: true,
+            ),
+            Boton(
+              color: Color.fromRGBO(221, 203, 236, 1),
+              text: 'Ingresar',
+              colorTexto: Colors.black,
+              onPressed: authService.autenticando
+                  ? null
+                  : () async {
+                      FocusScope.of(context).unfocus();
+
+                      final loginOk = await authService.login(
+                          emailController.text.trim(),
+                          cedulaController.text.trim());
+
+                      if (loginOk) {
+                        //Navegar a seleccion
+                        Navigator.pushReplacementNamed(context, 'menu');
+                      } else {
+                        mostrarAlerta(context, 'login Incorrecto',
+                            'Revise sus credenciales');
+                      }
+                    },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

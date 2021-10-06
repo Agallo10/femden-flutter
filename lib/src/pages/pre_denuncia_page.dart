@@ -1,6 +1,6 @@
-import 'package:femden/services/auth_service.dart';
 import 'package:femden/src/pages/denuncia_page.dart';
 import 'package:femden/widgets/boton.dart';
+import 'package:femden/widgets/boton_cerrar_cesion.dart';
 import 'package:femden/widgets/headers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -85,21 +85,7 @@ class PageHeader extends StatelessWidget {
         color1: this.color1,
         color2: this.color2,
       ),
-      Positioned(
-          right: 0,
-          top: 45,
-          child: RawMaterialButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, 'inicio');
-              AuthService.deleteToken();
-              AuthService.deleteUidPersona();
-            },
-            shape: CircleBorder(),
-            child: FaIcon(
-              FontAwesomeIcons.signOutAlt,
-              color: Colors.white,
-            ),
-          )),
+      Positioned(right: 0, top: 45, child: BotonSingOut()),
       //Positioned(right: 100, top: 660, child: botonTraido())
     ]);
   }

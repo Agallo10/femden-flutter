@@ -58,11 +58,13 @@ class DenunciaService with ChangeNotifier {
     }
   }
 
-  Future<bool> crearDenuncia(String texto, String persona, String tipo) async {
+  Future<bool> crearDenuncia(
+      String texto, String persona, String tipo, String autor) async {
     this.autenticando = true;
 
     final data = {
       "texto": texto,
+      "autor": autor,
       "persona": persona,
       "tipo": tipo,
     };

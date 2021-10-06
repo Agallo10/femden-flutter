@@ -17,7 +17,7 @@ class Labels extends StatelessWidget {
             child: Text(
               'Volver',
               style: TextStyle(
-                  color: Color.fromRGBO(221, 203, 236, 1), fontSize: 28),
+                  color: Color.fromRGBO(91, 33, 122, 1), fontSize: 28),
             ),
             onTap: () {
               Navigator.pushReplacementNamed(context, this.ruta);

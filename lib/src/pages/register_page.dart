@@ -1,57 +1,53 @@
 import 'package:age/age.dart';
 import 'package:femden/helpers/mostrar_alerta.dart';
+import 'package:femden/providers/register_form_provider.dart';
 import 'package:femden/services/auth_service.dart';
-import 'package:femden/widgets/boton.dart';
-import 'package:femden/widgets/custom_input.dart';
+import 'package:femden/ui/input_decortations.dart';
+import 'package:femden/widgets/auth_background_register.dart';
+import 'package:femden/widgets/card_container.dart';
 import 'package:femden/widgets/labels.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(91, 24, 123, 1),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.9,
+        body: AuthBackgroundRegister(
+            child: SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 60),
+          CardContainer(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    height: 18,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'Ingrese los datos para realizar la denuncia',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(221, 203, 236, 1),
-                          fontSize: 22),
-                    ),
-                  ),
-                  _Form(),
-                  Labels(
-                    ruta: 'inicio',
-                  )
-                ],
-              ),
-            ),
+            children: [
+              SizedBox(height: 10),
+              Text('Ingrese sus datos',
+                  style: Theme.of(context).textTheme.headline4),
+              SizedBox(height: 30),
+              ChangeNotifierProvider(
+                  create: (_) => RegisterFormProvider(), child: _RegisterForm())
+            ],
+          )),
+          SizedBox(height: 20),
+
+          Labels(
+            ruta: 'inicio',
           ),
-        ));
+          SizedBox(height: 20),
+          // Text(
+          //   'Crear una nueva cuenta',
+          //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          // ),
+          // SizedBox(height: 50),
+        ],
+      ),
+    )));
   }
 }
 
-class _Form extends StatefulWidget {
-  @override
-  __FormState createState() => __FormState();
-}
-
-class __FormState extends State<_Form> {
+class _RegisterForm extends StatelessWidget {
   final telController = TextEditingController();
   final nombreController = TextEditingController();
   final cedulaController = TextEditingController();
@@ -63,120 +59,201 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final registerForm = Provider.of<RegisterFormProvider>(context);
     final authService = Provider.of<AuthService>(context);
     final msg = authService.msg;
 
     return Container(
-      margin: EdgeInsets.only(top: 1),
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          CustomInput(
-            icon: Icons.person,
-            placeHolder: 'Nombre',
-            //keyboardType: TextInputType.number,
-            textController: nombreController,
-          ),
-          CustomInput(
-            icon: Icons.phone,
-            placeHolder: 'Numero de telefono',
-            keyboardType: TextInputType.number,
-            textController: telController,
-          ),
-          CustomInput(
-            icon: Icons.account_box,
-            placeHolder: 'Documento',
-            //keyboardType: TextInputType.number,
-            textController: cedulaController,
-            //isPassword: true,
-          ),
-          CustomInput(
-            icon: Icons.email,
-            placeHolder: 'Correo',
-            keyboardType: TextInputType.emailAddress,
-            textController: emailController,
-            //isPassword: true,
-          ),
-          CustomInput(
-            icon: Icons.map,
-            placeHolder: 'Direccion',
-            textController: direccionController,
-            //isPassword: true,
-          ),
-          CustomInput(
-            icon: Icons.date_range,
-            placeHolder: 'Fecha',
-            textController: fechaController,
-            onClicked: () {
-              showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(DateTime.now().year - 80),
-                  lastDate: DateTime(DateTime.now().year + 5),
-                  builder: (context, picker) {
-                    return Theme(
-                      data: ThemeData.dark().copyWith(
-                        colorScheme: ColorScheme.dark(
-                          primary: Colors.deepPurple,
-                          onPrimary: Colors.white,
-                          surface: Color.fromRGBO(221, 203, 236, 1),
-                          onSurface: Colors.deepPurple,
+      child: Form(
+        key: registerForm.formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          children: [
+            TextFormField(
+              autocorrect: false,
+              //obscureText: false,
+              keyboardType: TextInputType.name,
+              controller: nombreController,
+              decoration: InputDecorations.authInputDecoration(
+                  hintText: 'Alfredo Duro',
+                  labelText: 'Nombre',
+                  prefixIcon: Icons.person),
+              onChanged: (value) => registerForm.nombre = value,
+              validator: (value) {
+                return (value != null && value.length >= 1)
+                    ? null
+                    : 'El nombre debe tener al menos 1 caracter';
+              },
+            ),
+            SizedBox(height: 30),
+            TextFormField(
+              autocorrect: false,
+              //obscureText: false,
+              keyboardType: TextInputType.number,
+              controller: telController,
+              decoration: InputDecorations.authInputDecoration(
+                  hintText: '3235085647',
+                  labelText: 'Numero de teléfono',
+                  prefixIcon: Icons.phone),
+              onChanged: (value) => registerForm.telefono = value,
+              validator: (value) {
+                return (value != null && value.length >= 6)
+                    ? null
+                    : 'El número debe tener al menos 6 caracteres.';
+              },
+            ),
+            SizedBox(height: 30),
+            TextFormField(
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              controller: emailController,
+              decoration: InputDecorations.authInputDecoration(
+                  hintText: 'ejemplo@gmail.com',
+                  labelText: 'Correo electrónico',
+                  prefixIcon: Icons.alternate_email_rounded),
+              onChanged: (value) => registerForm.email = value,
+              validator: (value) {
+                String pattern =
+                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                RegExp regExp = new RegExp(pattern);
+
+                return regExp.hasMatch(value ?? '')
+                    ? null
+                    : 'El valor ingresado no luce como un correo';
+              },
+            ),
+            SizedBox(height: 30),
+            TextFormField(
+              autocorrect: false,
+              //obscureText: true,
+              keyboardType: TextInputType.number,
+              controller: cedulaController,
+              decoration: InputDecorations.authInputDecoration(
+                  hintText: '1102093505',
+                  labelText: 'Documento',
+                  prefixIcon: Icons.account_box),
+              onChanged: (value) => registerForm.documento = value,
+              validator: (value) {
+                return (value != null &&
+                        value.length >= 8 &&
+                        value.length <= 10)
+                    ? null
+                    : 'La Documento debe de ser mayor de 8 caracteres';
+              },
+            ),
+            SizedBox(height: 30),
+            TextFormField(
+              autocorrect: false,
+              //obscureText: false,
+              keyboardType: TextInputType.name,
+              controller: direccionController,
+              decoration: InputDecorations.authInputDecoration(
+                  hintText: 'Ejm: Avenida siempre vivas 24',
+                  labelText: 'Direccion',
+                  prefixIcon: Icons.map),
+              onChanged: (value) => registerForm.direccion = value,
+              validator: (value) {
+                return (value != null && value.length >= 1)
+                    ? null
+                    : 'La direccion debe tener al menos 1 caracter';
+              },
+            ),
+            SizedBox(height: 30),
+            TextFormField(
+              autocorrect: false,
+              //obscureText: false,
+              keyboardType: TextInputType.name,
+              controller: fechaController,
+              decoration: InputDecorations.authInputDecoration(
+                  //hintText: 'Ejm: Avenida siempre vivas 24',
+                  labelText: 'Fecha de nacimiento',
+                  prefixIcon: Icons.date_range),
+              onChanged: (value) => registerForm.fecha = value,
+              validator: (value) {
+                return (value != null && value.length >= 1)
+                    ? null
+                    : 'La direccion debe tener al menos 1 caracter';
+              },
+
+              onTap: () {
+                showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(DateTime.now().year - 80),
+                    lastDate: DateTime(DateTime.now().year + 5),
+                    builder: (context, picker) {
+                      return Theme(
+                        data: ThemeData.dark().copyWith(
+                          colorScheme: ColorScheme.dark(
+                            primary: Colors.deepPurple,
+                            onPrimary: Colors.white,
+                            surface: Color.fromRGBO(221, 203, 236, 1),
+                            onSurface: Colors.deepPurple,
+                          ),
+                          dialogBackgroundColor: Colors.white,
                         ),
-                        dialogBackgroundColor: Colors.white,
-                      ),
-                      child: picker,
-                    );
-                  }).then((selectedDate) {
-                if (selectedDate != null) {
-                  fechaController.text =
-                      DateFormat('MM/dd/yyyy').format(selectedDate);
+                        child: picker,
+                      );
+                    }).then((selectedDate) {
+                  if (selectedDate != null) {
+                    fechaController.text =
+                        DateFormat('MM/dd/yyyy').format(selectedDate);
 
-                  age = Age.dateDifference(
-                      fromDate: selectedDate,
-                      toDate: DateTime.now(),
-                      includeToDate: false);
+                    age = Age.dateDifference(
+                        fromDate: selectedDate,
+                        toDate: DateTime.now(),
+                        includeToDate: false);
 
-                  edad = age.years;
+                    edad = age.years;
 
-                  print(edad);
-                }
-              });
-            },
+                    print(edad);
+                  }
+                });
+              },
+            ),
+            SizedBox(height: 30),
+            MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                disabledColor: Colors.grey,
+                elevation: 0,
+                color: Colors.deepPurple,
+                child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                    child: Text(
+                      registerForm.isLoading ? 'Espere' : 'Siguiente',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                onPressed: registerForm.isLoading
+                    ? null
+                    : () async {
+                        FocusScope.of(context).unfocus();
 
-            //isPassword: true,
-          ),
-          Container(
-            height: 10,
-          ),
-          Boton(
-            color: Color.fromRGBO(221, 203, 236, 1),
-            colorTexto: Colors.black,
-            text: 'Siguiente',
-            onPressed:
-                //authService.autenticando
-                // ? null
-                // :
-                () async {
-              final registroOK = await authService.crearPersonas(
-                  nombreController.text.trim(),
-                  cedulaController.text.trim(),
-                  emailController.text.trim(),
-                  int.parse(telController.text.trim()),
-                  direccionController.text.trim(),
-                  fechaController.text.trim(),
-                  edad);
+                        if (!registerForm.isValidForm()) return;
 
-              if (registroOK) {
-                //Navegar a seleccion
-                Navigator.pushReplacementNamed(context, 'menu');
-              } else {
-                mostrarAlerta(context, ' Error', msg ?? "");
-              }
-            },
-          ),
+                        registerForm.isLoading = true;
 
-          //Boton(text: 'fecha', onPressed: () {})
-        ],
+                        //await Future.delayed(Duration(seconds: 2));
+
+                        final registroOK = await authService.crearPersonas(
+                            nombreController.text.trim(),
+                            cedulaController.text.trim(),
+                            emailController.text.trim(),
+                            int.parse(telController.text.trim()),
+                            direccionController.text.trim(),
+                            fechaController.text.trim(),
+                            edad);
+
+                        if (registroOK) {
+                          //Navegar a seleccion
+                          Navigator.pushReplacementNamed(context, 'menu');
+                        } else {
+                          mostrarAlerta(context, ' Error', msg ?? "");
+                        }
+                        registerForm.isLoading = false;
+                      })
+          ],
+        ),
       ),
     );
   }
