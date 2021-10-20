@@ -208,7 +208,7 @@ class _MisDenunciasPageState extends State<MisDenunciasPage> {
                               String denunciaTipo =
                                   '${denunDataFis[i]["tipo"]["nombre"]}';
                               int numeroRadicado =
-                                  denunDataSeg[i]["numeroRadicado"];
+                                  denunDataFis[i]["numeroRadicado"];
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
@@ -258,7 +258,7 @@ class _MisDenunciasPageState extends State<MisDenunciasPage> {
                               String denunciaTipo =
                                   '${denunDataFin[i]["tipo"]["nombre"]}';
                               int numeroRadicado =
-                                  denunDataSeg[i]["numeroRadicado"];
+                                  denunDataFin[i]["numeroRadicado"];
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
