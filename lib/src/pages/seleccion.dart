@@ -75,7 +75,7 @@ class PageHeader extends StatelessWidget {
       IconHeader(
         icon: FontAwesomeIcons.home,
         subtitulo: 'Selecciona el',
-        titulo: 'Tipo de denuncia',
+        titulo: 'Tipo de Violencia',
         color1: Color.fromRGBO(91, 24, 123, 1),
         color2: Color.fromRGBO(91, 24, 123, 1),
       ),

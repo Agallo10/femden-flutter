@@ -25,17 +25,18 @@ class InicioScroll extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Color.fromRGBO(91, 24, 123, 1),
+      color: Color.fromRGBO(91, 33, 122, 1),
     );
   }
 
   Widget _fondoIMG() {
     return Center(
       child: Container(
-        width: 180,
-        height: 180,
+        //color: Colors.red,
+        width: double.infinity,
+        height: 420,
         child: Image(
-          image: AssetImage('assets/derechos-mujer.png'),
+          image: AssetImage('assets/launcher.png'),
         ),
       ),
     );
@@ -45,35 +46,35 @@ class InicioScroll extends StatelessWidget {
     final estiloTexto =
         TextStyle(color: Color.fromRGBO(221, 203, 236, 1), fontSize: 28);
     final estiloTexto2 =
-        TextStyle(color: Color.fromRGBO(221, 203, 236, 1), fontSize: 22);
+        TextStyle(color: Color.fromRGBO(221, 203, 236, 1), fontSize: 18);
     return SafeArea(
       child: Column(
         children: <Widget>[
           SizedBox(
             height: 80,
           ),
-          Text(
-            'FEMDEN',
-            style: estiloTexto,
-          ),
+          // Text(
+          //   'FEMDEN',
+          //   style: estiloTexto,
+          // ),
           SizedBox(
-            height: 80,
+            height: 10,
           ),
           _fondoIMG(),
           Expanded(child: Container()),
           SizedBox(
-            height: 120,
+            height: 30,
             child: Container(
-              padding: EdgeInsets.all(30),
+              //padding: EdgeInsets.all(30),
               child: Text(
-                'Denuncia tu caso de violencia y discriminacion contra las mujeres',
+                'Desliza para continuar',
                 style: estiloTexto2,
                 textAlign: TextAlign.center,
               ),
               //color: Colors.black,
             ),
           ),
-          SizedBox(height: 100),
+          SizedBox(height: 2),
           Icon(
             Icons.keyboard_arrow_down,
             size: 70,
@@ -139,17 +140,21 @@ class InicioScroll extends StatelessWidget {
           height: 200,
         ),
         Container(
-          width: 300,
+          padding: EdgeInsets.all(30),
+          //color: Colors.black,
+          width: double.infinity,
           height: 150,
           child: Text(
             'Esta App le permitirá realizar una denuncia ingresando sus datos básicos personales. ',
             style: estiloTexto2,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.justify,
           ),
         ),
         Container(
-          width: 360,
-          height: 60,
+          padding: EdgeInsets.all(10),
+          width: double.infinity,
+          //color: Colors.black,
+          height: 70,
           child: Text(
             'Ya ha realizado una denuncia antes?',
             style: estiloTexto2,
@@ -157,7 +162,7 @@ class InicioScroll extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 40,
+          height: 20,
         ),
         Container(
           child: Row(

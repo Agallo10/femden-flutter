@@ -93,7 +93,7 @@ class _RegisterForm extends StatelessWidget {
               controller: telController,
               decoration: InputDecorations.authInputDecoration(
                   hintText: '3235085647',
-                  labelText: 'Numero de teléfono',
+                  labelText: 'Número de teléfono',
                   prefixIcon: Icons.phone),
               onChanged: (value) => registerForm.telefono = value,
               validator: (value) {
@@ -149,13 +149,13 @@ class _RegisterForm extends StatelessWidget {
               controller: direccionController,
               decoration: InputDecorations.authInputDecoration(
                   hintText: 'Ejm: Avenida siempre vivas 24',
-                  labelText: 'Direccion',
+                  labelText: 'Dirección',
                   prefixIcon: Icons.map),
               onChanged: (value) => registerForm.direccion = value,
               validator: (value) {
                 return (value != null && value.length >= 1)
                     ? null
-                    : 'La direccion debe tener al menos 1 caracter';
+                    : 'La dirección debe tener al menos 1 caracter';
               },
             ),
             SizedBox(height: 30),
@@ -172,7 +172,7 @@ class _RegisterForm extends StatelessWidget {
               validator: (value) {
                 return (value != null && value.length >= 1)
                     ? null
-                    : 'La direccion debe tener al menos 1 caracter';
+                    : 'Seleccione la fecha de nacimiento';
               },
 
               onTap: () {

@@ -157,6 +157,8 @@ class _MisDenunciasPageState extends State<MisDenunciasPage> {
                                   '${denunDataSeg[i]["estado"]["nombre"]}';
                               String denunciaTipo =
                                   '${denunDataSeg[i]["tipo"]["nombre"]}';
+                              int numeroRadicado =
+                                  denunDataSeg[i]["numeroRadicado"];
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
@@ -166,7 +168,8 @@ class _MisDenunciasPageState extends State<MisDenunciasPage> {
                                               denunciaTexto,
                                               denunciafecha,
                                               denunciaEstado,
-                                              denunciaTipo)));
+                                              denunciaTipo,
+                                              numeroRadicado)));
                             }),
                         separatorBuilder: (_, i) => Divider(),
                       ),
@@ -204,6 +207,8 @@ class _MisDenunciasPageState extends State<MisDenunciasPage> {
                                   '${denunDataFis[i]["estado"]["nombre"]}';
                               String denunciaTipo =
                                   '${denunDataFis[i]["tipo"]["nombre"]}';
+                              int numeroRadicado =
+                                  denunDataSeg[i]["numeroRadicado"];
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
@@ -213,7 +218,8 @@ class _MisDenunciasPageState extends State<MisDenunciasPage> {
                                               denunciaTexto,
                                               denunciafecha,
                                               denunciaEstado,
-                                              denunciaTipo)));
+                                              denunciaTipo,
+                                              numeroRadicado)));
                             }),
                         separatorBuilder: (_, i) => Divider(),
                       ),
@@ -251,6 +257,8 @@ class _MisDenunciasPageState extends State<MisDenunciasPage> {
                                   '${denunDataFin[i]["estado"]["nombre"]}';
                               String denunciaTipo =
                                   '${denunDataFin[i]["tipo"]["nombre"]}';
+                              int numeroRadicado =
+                                  denunDataSeg[i]["numeroRadicado"];
                               Navigator.push(
                                   context,
                                   PageRouteBuilder(
@@ -260,7 +268,8 @@ class _MisDenunciasPageState extends State<MisDenunciasPage> {
                                               denunciaTexto,
                                               denunciafecha,
                                               denunciaEstado,
-                                              denunciaTipo)));
+                                              denunciaTipo,
+                                              numeroRadicado)));
                             }),
                       ),
                     ),

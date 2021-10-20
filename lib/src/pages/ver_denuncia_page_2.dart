@@ -12,9 +12,10 @@ class VerDenunciaPage2 extends StatefulWidget {
   final String fecha;
   final String estado;
   final String tipo;
+  final int numeroRadicado;
 
-  const VerDenunciaPage2(
-      this.uid, this.texto, this.fecha, this.estado, this.tipo);
+  const VerDenunciaPage2(this.uid, this.texto, this.fecha, this.estado,
+      this.tipo, this.numeroRadicado);
 
   @override
   _VerDenunciaPage2State createState() => _VerDenunciaPage2State(this.uid);
@@ -75,6 +76,11 @@ class _VerDenunciaPage2State extends State<VerDenunciaPage2> {
       colorEstado = Colors.red;
     }
 
+    int nullMethodRadicado() {
+      int numeroRadicado = this.widget.numeroRadicado;
+      return numeroRadicado ?? 0;
+    }
+
     return Scaffold(
       appBar: AppBar(
         //title: Text(this.widget.tipo),
@@ -126,12 +132,16 @@ class _VerDenunciaPage2State extends State<VerDenunciaPage2> {
                                 fontWeight: FontWeight.bold)),
                       ])),
                   Divider(),
+                  Text('Número de radicado: ${nullMethodRadicado()}',
+                      style: TextStyle(fontSize: 15, color: Colors.black)),
+                  Divider(),
+
                   Text('Fecha: ${this.widget.fecha}',
                       style: TextStyle(fontSize: 15, color: Colors.grey)),
                   Divider(),
                   Container(
-                    height: 80,
-                  )
+                    height: 160,
+                  ),
                 ],
               ),
             ),

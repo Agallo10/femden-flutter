@@ -109,10 +109,15 @@ Widget _cuerpoDenuncia(tipo) {
   return Container(
     child: Column(
       children: [
-        Text(
-          _info(tipo),
-          textAlign: TextAlign.justify,
-          style: TextStyle(fontSize: 18),
+        Container(
+          //color: Colors.blueAccent,
+          padding: EdgeInsets.all(10),
+          width: double.infinity,
+          child: Text(
+            _info(tipo),
+            textAlign: TextAlign.justify,
+            style: TextStyle(fontSize: 21),
+          ),
         ),
         Flex(direction: Axis.vertical),
       ],
@@ -136,19 +141,19 @@ Widget _botonSeguir(IconData icon, String texto, Color color1, Color color2,
 
 _info(String tipo) {
   if (tipo == '5f8e631789766e1bdf4bb3c4') {
-    return 'Consiste en causar o intentar causar daño a una pareja golpeándola, propinándole patadas, quemándola, agarrándola, pellizcándola, empujándola, dándole bofetadas, tirándole del cabello, mordiéndole, denegándole atención médica u obligándola a consumir alcohol o drogas, así como empleando cualquier otro tipo de fuerza física contra ella. Puede incluir daños a la propiedad.';
+    return 'Daño o sufrimiento físico: Riesgo o disminución de la integridad corporal de una persona.';
   }
   if (tipo == '5f8e632789766e1bdf4bb3c5') {
     return 'Consiste en lograr o intentar conseguir la dependencia financiera de otra persona, manteniendo para ello un control total sobre sus recursos financieros, impidiéndole acceder a ellos y prohibiéndole trabajar o asistir a la escuela.';
   }
   if (tipo == '5f8e633189766e1bdf4bb3c6') {
-    return 'Conlleva obligar a una pareja a participar en un acto sexual sin su consentimiento. Véase infra para obtener más información sobre la violencia sexual.';
+    return 'Consecuencias que provienen de la acción consistente en obligar a una persona a mantener contacto sexualizado, físico o verbal, o a participar en otras interacciones sexuales mediante el uso de fuerza, intimidación, coerción, chantaje, soborno, manipulación, amenaza o cualquier otro mecanismo que anule o limite la voluntad personal.';
   }
   if (tipo == '5f8e633c89766e1bdf4bb3c7') {
-    return 'Consiste en provocar miedo a través de la intimidación; en amenazar con causar daño físico a una persona, su pareja o sus hijas o hijos, o con destruir sus mascotas y bienes; en someter a una persona a maltrato psicológico o en forzarla a aislarse de sus amistades, de su familia, de la escuela o del trabajo.';
+    return 'Consecuencia proveniente de la acción u omisión destinada a degradar o controlar las acciones, comportamientos, creencias y decisiones de otras personas, por medio de intimidación, manipulación, amenaza, directa o indirecta, humillación, aislamiento o cualquier otra conducta que implique un perjuicio en la salud psicológica, la autodeterminación o el desarrollo personal.';
   }
   if (tipo == '5f8e634989766e1bdf4bb3c8') {
-    return 'Se considera violencia patrimonial a toda conducta activa u omisiva que directa o indirectamente, en los ámbitos público y privado, esté dirigida a ocasionar un daño a los bienes muebles o inmuebles en menoscabo del patrimonio de las mujeres víctimas de violencia o a los bienes comunes. También la que se dirige a ocasionar un menoscabo en los recursos económicos o patrimoniales de la mujer, a través de la perturbación de la posesión, tenencia o propiedad de sus bienes, pérdida, sustracción, destrucción, retención o distracción indebida de objetos, instrumentos de trabajo, documentos personales, bienes, valores y derechos patrimoniales. Incluye todo acto que genere limitaciones económicas encaminadas a controlar sus ingresos, o la privación de los medios económicos indispensables para vivir.';
+    return 'Pérdida, sustracción, destrucción, retención o distracción de objetos, instrumentos de trabajo, documentos personales, bienes, valores, derechos o económicos destinados a satisfacer las necesidades de la mujer';
   } else {
     return '';
   }
